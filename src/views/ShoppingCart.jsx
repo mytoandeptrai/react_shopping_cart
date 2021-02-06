@@ -67,10 +67,9 @@ const ShoppingCart = () => {
   }
 
   const handleRemoveFormCart = product => {
+    console.log(product);
     const cartValues = cartItems.slice();
-    cartValues.filter(x => x._id !== product._id);
-    console.log(cartValues);
-    setCartItems(cartValues);
+    setCartItems(cartValues.filter(x => x._id !== product._id));
 
   }
 

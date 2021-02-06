@@ -14,7 +14,7 @@ const Cart = ({ cartItems, handleRemoveFormCart }) => {
         )}
         <div>
           <div className="cart">
-            <div className="cart-items">
+            <ul className="cart-items">
               {cartItems.map((item) => (
                 <li key={item._id}>
                   <div>
@@ -23,7 +23,7 @@ const Cart = ({ cartItems, handleRemoveFormCart }) => {
                   <div>
                     <div>{item.title}</div>
                     <div className="right">
-                        {formatCurrency(item.price)} x {item.count}{" "}
+                      {formatCurrency(item.price)} x {item.count}{" "}
                       <button onClick={() => handleRemoveFormCart(item)}>
                         Remove
                       </button>
@@ -31,8 +31,21 @@ const Cart = ({ cartItems, handleRemoveFormCart }) => {
                   </div>
                 </li>
               ))}
-            </div>
+            </ul>
           </div>
+          {cartItems.length !== 0 && (
+            <div className="cart">
+              <div className="total">
+                <div>
+                  Total:{" "}
+                  {formatCurrency(
+                    cartItems.reduce((a, c) => a + c.price * c.count, 0)
+                  )}
+                </div>
+                <div className="button primary">Proceed</div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </Fragment>
