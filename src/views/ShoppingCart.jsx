@@ -8,7 +8,11 @@ const ShoppingCart = () => {
   const [products, setProducts] = useState(data.products);
   const [size, setSize] = useState("");
   const [sort, setSort] = useState("");
-  const [cartItems, setCartItems] = useState([]);
+  const [cartItems, setCartItems] = useState(
+    localStorage.getItem("cartItem")
+      ? JSON.parse(localStorage.getItem("cartItem"))
+      : []
+  );
 
   const handleFilterProducts = (event) => {
     if (event.target.value === "") {
@@ -50,27 +54,36 @@ const ShoppingCart = () => {
     const cartValues = cartItems.slice();
     console.log(cartValues);
     let alreadyCart = false;
-    cartValues.forEach(item => {
-        if(item._id === product._id){
-            item.count++;
-            console.log(item.count);
-            alreadyCart = true;
-        }
+    cartValues.forEach((item) => {
+      if (item._id === product._id) {
+        item.count++;
+        console.log(item.count);
+        alreadyCart = true;
+      }
     });
-    if(!alreadyCart){
-        cartValues.push({
-            ...product,
-            count: 1
-        })
+    if (!alreadyCart) {
+      cartValues.push({
+        ...product,
+        count: 1,
+      });
     }
     setCartItems(cartValues);
-  }
+    localStorage.setItem("cartItem", JSON.stringify(cartValues));
+  };
 
-  const handleRemoveFormCart = product => {
+  const handleRemoveFormCart = (product) => {
     console.log(product);
     const cartValues = cartItems.slice();
-    setCartItems(cartValues.filter(x => x._id !== product._id));
+    setCartItems(cartValues.filter((x) => x._id !== product._id));
+    localStorage.setItem(
+      "cartItem",
+      JSON.stringify(cartValues.filter((x) => x._id !== product._id))
+    );
+  };
 
+  const handleCheckOutFormSubmit = order => {
+    console.log(order);
+    alert("Need to save order for" + order.name)
   }
 
   return (
@@ -93,7 +106,11 @@ const ShoppingCart = () => {
             <Products products={products} handleAddToCart={handleAddToCart} />
           </div>
           <div className="sidebar">
-              <Cart cartItems={cartItems} handleRemoveFormCart={handleRemoveFormCart} />
+            <Cart
+              cartItems={cartItems}
+              handleRemoveFormCart={handleRemoveFormCart}
+              handleCheckOutFormSubmit={handleCheckOutFormSubmit}
+            />
           </div>
         </div>
       </main>
