@@ -86,6 +86,23 @@ const ShoppingCart = () => {
     alert("Need to save order for" + order.name)
   }
 
+  const handleAddClick = product => {
+    console.log(product);
+    const exist = cartItems.find(x => x._id === product._id);
+    if(exist){
+      setCartItems(cartItems.map(x => x._id === product._id ? {...exist,count: exist.count + 1} : x));
+    }
+  }
+
+  const handleRemoveClick = product => {
+    const exist = cartItems.find(x => x._id === product._id);
+    if(exist.count === 1){
+      setCartItems(cartItems.map(x => x._id === product._id ? {...exist,count: 1} : x));
+    }else{
+      setCartItems(cartItems.map(x => x._id === product._id ? {...exist,count: exist.count - 1} : x));
+    }
+  }
+
   return (
     <div className="grid-container">
       <header>
@@ -110,6 +127,8 @@ const ShoppingCart = () => {
               cartItems={cartItems}
               handleRemoveFormCart={handleRemoveFormCart}
               handleCheckOutFormSubmit={handleCheckOutFormSubmit}
+              handleAddClick={handleAddClick}
+              handleRemoveClick={handleRemoveClick}
             />
           </div>
         </div>
