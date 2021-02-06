@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Cart from "../components/Cart/Cart";
 import Filter from "../components/Filter/Filter";
 import Products from "../components/Products/Products";
 import data from "../data.json";
@@ -7,6 +8,7 @@ const ShoppingCart = () => {
   const [products, setProducts] = useState(data.products);
   const [size, setSize] = useState("");
   const [sort, setSort] = useState("");
+  const [cartItems, setCartItems] = useState([]);
 
   const handleFilterProducts = (event) => {
     if (event.target.value === "") {
@@ -44,6 +46,34 @@ const ShoppingCart = () => {
     );
   };
 
+  const handleAddToCart = (product) => {
+    const cartValues = cartItems.slice();
+    console.log(cartValues);
+    let alreadyCart = false;
+    cartValues.forEach(item => {
+        if(item._id === product._id){
+            item.count++;
+            console.log(item.count);
+            alreadyCart = true;
+        }
+    });
+    if(!alreadyCart){
+        cartValues.push({
+            ...product,
+            count: 1
+        })
+    }
+    setCartItems(cartValues);
+  }
+
+  const handleRemoveFormCart = product => {
+    const cartValues = cartItems.slice();
+    cartValues.filter(x => x._id !== product._id);
+    console.log(cartValues);
+    setCartItems(cartValues);
+
+  }
+
   return (
     <div className="grid-container">
       <header>
@@ -61,9 +91,11 @@ const ShoppingCart = () => {
               handleFilterProducts={handleFilterProducts}
               handleSortProducts={handleSortProducts}
             />
-            <Products products={products} />
+            <Products products={products} handleAddToCart={handleAddToCart} />
           </div>
-          <div className="sidebar">Cart Items</div>
+          <div className="sidebar">
+              <Cart cartItems={cartItems} handleRemoveFormCart={handleRemoveFormCart} />
+          </div>
         </div>
       </main>
       <footer>All right is reserved</footer>
