@@ -18,6 +18,9 @@ const ShoppingCart = () => {
     if (event.target.value === "") {
       setSize(event.target.value);
       setProducts(products);
+    } else if (event.target.value === "All") {
+      setSize(event.target.value);
+      setProducts(data.products);
     } else {
       setSize(event.target.value);
       setProducts(
@@ -81,27 +84,39 @@ const ShoppingCart = () => {
     );
   };
 
-  const handleCheckOutFormSubmit = order => {
+  const handleCheckOutFormSubmit = (order) => {
     console.log(order);
-    alert("Need to save order for" + order.name)
-  }
+    alert("Need to save order for" + order.name);
+  };
 
-  const handleAddClick = product => {
+  const handleAddClick = (product) => {
     console.log(product);
-    const exist = cartItems.find(x => x._id === product._id);
-    if(exist){
-      setCartItems(cartItems.map(x => x._id === product._id ? {...exist,count: exist.count + 1} : x));
+    const exist = cartItems.find((x) => x._id === product._id);
+    if (exist) {
+      setCartItems(
+        cartItems.map((x) =>
+          x._id === product._id ? { ...exist, count: exist.count + 1 } : x
+        )
+      );
     }
-  }
+  };
 
-  const handleRemoveClick = product => {
-    const exist = cartItems.find(x => x._id === product._id);
-    if(exist.count === 1){
-      setCartItems(cartItems.map(x => x._id === product._id ? {...exist,count: 1} : x));
-    }else{
-      setCartItems(cartItems.map(x => x._id === product._id ? {...exist,count: exist.count - 1} : x));
+  const handleRemoveClick = (product) => {
+    const exist = cartItems.find((x) => x._id === product._id);
+    if (exist.count === 1) {
+      setCartItems(
+        cartItems.map((x) =>
+          x._id === product._id ? { ...exist, count: 1 } : x
+        )
+      );
+    } else {
+      setCartItems(
+        cartItems.map((x) =>
+          x._id === product._id ? { ...exist, count: exist.count - 1 } : x
+        )
+      );
     }
-  }
+  };
 
   return (
     <div className="grid-container">

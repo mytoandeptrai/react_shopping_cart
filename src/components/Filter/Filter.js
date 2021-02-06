@@ -17,7 +17,7 @@ const Filter = ({count,size,sort,handleFilterProducts,handleSortProducts}) => {
             <div className="filter-size">
                 Filter
                 <select value={size} onChange={handleFilterProducts}>
-                    <option value="">All</option>
+                    <option value="All">All</option>
                     <option value="XS">XS</option>
                     <option value="S">S</option>
                     <option value="M">M</option>
